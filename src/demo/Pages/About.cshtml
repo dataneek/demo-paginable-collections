@@ -1,0 +1,36 @@
+﻿@page "{pageNumber?}/{itemCountPerPage?}"
+@model AboutModel
+@{
+    ViewData["Title"] = "About";
+    
+}
+
+<div>
+    <dl>
+        <dt>
+            Customer Name
+        </dt>
+        <dd>
+            @Model.Customer.FirstName @Model.Customer.LastName
+        </dd>
+        <dt>
+            Organization Name
+        </dt>
+        <dd>
+            @Model.Customer.OrganizationName            
+        </dd>
+        <dt>
+            Phone Number
+        </dt>
+        <dd>
+            @Model.Customer.PhoneNumber          
+        </dd>
+        <dt>
+            Email
+        </dt>
+        <dd>
+            @Model.Customer.Email            
+        </dd>
+    </dl>
+    <a class="btn btn-primary" asp-page="/index" asp-route-filtertext="@Model.Input.FilterText" asp-route-sortmode="@Model.Input.SortMode" asp-route-userrightids="@Model.Input.UserRightIds">Return to Home</a>
+</div>

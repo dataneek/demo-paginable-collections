@@ -1,9 +1,11 @@
 ﻿namespace AspNetCore20.Models
 {
+    using System;
     using PaginableCollections;
 
     public interface ICustomerRepository
     {
-        IPaginable<Customer> GetCustomers(int pageNumber, int itemCountPerPage);
+        Customer GetCustomer(Guid id);
+        IPaginable<Customer> GetCustomers(string filterText, int pageNumber, int itemCountPerPage);
     }
 }

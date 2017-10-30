@@ -1,5 +1,6 @@
 ﻿namespace AspNetCore20.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Bogus;
@@ -24,9 +25,18 @@
                     .ToList();
         }
 
-        public IPaginable<Customer> GetCustomers(int pageNumber, int itemCountPerPage)
+        public Customer GetCustomer(Guid id)
         {
-            return customers.ToPaginable(pageNumber, itemCountPerPage);
+            return 
+                customers
+                    .FirstOrDefault(t=> t.Id == id);
+        }
+
+        public IPaginable<Customer> GetCustomers(string filterText, int pageNumber, int itemCountPerPage)
+        {
+            return 
+                customers
+                    .ToPaginable(pageNumber, itemCountPerPage); 
         }
     }
 }

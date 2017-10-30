@@ -1,59 +1,21 @@
 ﻿@model PaginableCollections.IPaginable
-@{
-    //# Guess this should be here, as it is presentation logic. :(
-    const int MaximumPageNumbersToDisplay = 10;
-
-    var firstPageToDisplay = 1;
-    var lastPageToDisplay = Model.TotalPageCount;
-    var pageNumbersToDisplay = lastPageToDisplay;
-
-    if (Model.TotalPageCount > MaximumPageNumbersToDisplay)
-    {
-        var maxPageNumbersToDisplay = MaximumPageNumbersToDisplay;
-        firstPageToDisplay = Model.PageNumber - maxPageNumbersToDisplay / 2;
-        if (firstPageToDisplay < 1)
-        {
-            firstPageToDisplay = 1;
-        }
-        pageNumbersToDisplay = maxPageNumbersToDisplay;
-        lastPageToDisplay = firstPageToDisplay + pageNumbersToDisplay - 1;
-        if (lastPageToDisplay > Model.TotalPageCount)
-        {
-            firstPageToDisplay = Model.TotalPageCount - maxPageNumbersToDisplay + 1;
-        }
-    }
-
-    var totalPageNumber = Model.TotalPageCount;
-    if (totalPageNumber == 0)
-    {
-        totalPageNumber = 1;
-    }
-}
+@using PaginableCollections;
 
 <div>
     <ul class="pagination">
         <li>
-            <a name="page-number" data-page-number="1" asp-route-pagenumber="1" asp-route-itemcountperpage="@Model.ItemCountPerPage">First</a>
+            <a asp-page="/index" asp-route-pagenumber="1" asp-route-itemcountperpage="@Model.ItemCountPerPage">First</a>
         </li>
 
-        @for (int i = firstPageToDisplay; i <= firstPageToDisplay + pageNumbersToDisplay - 1; i++)
+        @foreach(var t in Model.ToPager(10).GetPages())
         {
-            if (i == Model.PageNumber)
-            {
-                <li class="active">
-                    <a name="page-number" data-page-number="@i" asp-page="/index" asp-route-pagenumber="@i" asp-route-itemcountperpage="@Model.ItemCountPerPage">@i</a>
-                </li>
-            }
-            else
-            {
-                <li>
-                    <a name="page-number" data-page-number="@i" asp-page="/index" asp-route-pagenumber="@i" asp-route-itemcountperpage="@Model.ItemCountPerPage">@i</a>
-                </li>
-            }
+            <li class="@(Model.PageNumber == t.PageNumber  ? "active" : "")" >
+                <a asp-page="/index" asp-route-pagenumber="@t.PageNumber" asp-route-itemcountperpage="@Model.ItemCountPerPage">@t.PageNumber</a>
+            </li>
         }
 
         <li>
-            <a name="page-number" data-page-number="@Model.TotalPageCount" asp-page="/index" asp-route-pagenumber="@Model.TotalPageCount" asp-route-itemcountperpage="@Model.ItemCountPerPage">Last</a>
+            <a asp-page="/index" asp-route-pagenumber="@Model.TotalPageCount" asp-route-itemcountperpage="@Model.ItemCountPerPage">Last</a>
         </li>
     </ul>
 </div>
