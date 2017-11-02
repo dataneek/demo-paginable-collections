@@ -1,4 +1,4 @@
-﻿namespace AspNetCore20.Pages
+﻿namespace AspNetCore20.Pages.Customers
 {
     using System;
     using System.Collections.Generic;
@@ -24,7 +24,12 @@
         public IPaginable<Customer> Customers { get; set; } = Paginable.Empty<Customer>();
 
 
-        public void OnGet(string filterText, string userRightIds, SortMode sortMode, int pageNumber = 1, int itemCountPerPage = 20)
+        public IActionResult OnGet(int pageNumber, int itemCountPerPage)
+        {
+            return RedirectToPage("index", "find", new { pageNumber, itemCountPerPage });
+        }
+
+        public void OnGetFind(int pageNumber, int itemCountPerPage, string filterText, string userRightIds, SortMode sortMode)
         {
             this.Input = new InputModel
             {
@@ -45,10 +50,13 @@
 
         public IActionResult OnPostFind()
         {            
-            return RedirectToPage("Index", new { Input.FilterText, Input.SortMode, Input.PageNumber, Input.ItemCountPerPage, userRightIds=string.Join(",", Input.UserRights?? new string[]{}) });
+            return RedirectToPage("index", "find", new { Input.FilterText, sortMode=(int)Input.SortMode, Input.PageNumber, Input.ItemCountPerPage, userRightIds=string.Join(",", Input.UserRights?? new string[]{}) });
         }
 
-
+        public IActionResult OnPostClear()
+        {            
+            return RedirectToPage("index", "find", new { FilterText="", sortMode=(int)Input.SortMode, PageNumber=1, Input.ItemCountPerPage, userRightIds=string.Join(",", Input.UserRights?? new string[]{}) });
+        }
 
         public class InputModel
         {

@@ -21,6 +21,7 @@
                             .RuleFor(u => u.OrganizationName, e => e.Company.CompanyName())
                             .RuleFor(u => u.PhoneNumber, e => e.Phone.PhoneNumber())
                             .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
+                            .RuleFor(u => u.CountryName, e => e.Address.Country())
                             .Generate())
                     .ToList();
         }

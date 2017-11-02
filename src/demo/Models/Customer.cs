@@ -10,5 +10,6 @@
         public string PhoneNumber { get; set; }
         public string OrganizationName { get; set; }
         public string Email { get; set; }
+        public string CountryName { get; set; }
     }
 }

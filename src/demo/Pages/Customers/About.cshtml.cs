@@ -1,4 +1,4 @@
-﻿namespace AspNetCore20.Pages
+﻿namespace AspNetCore20.Pages.Customers
 {
     using System;
     using System.Collections.Generic;
